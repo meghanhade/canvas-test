@@ -39,7 +39,7 @@
           // update and draw each rect
           for(var i = 0; i < rects.length; i ++){
             var rec = rects[i];
-            rec.rotate;
+            rec.rotate += .0015;
             drawRect(Math.sin(time * rec.ds) * 0.4,rec.rotate,rec.col);
           }
           requestAnimationFrame(update); // do it all again
