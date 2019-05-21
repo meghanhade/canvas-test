@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Canvas test</title>
+    <script type="text/javascript">
+
+      function draw() {
+        var ctx = document.getElementById('canvas').getContext('2d');
+  
+        var drawRect = function(scale,rot,col){
+          ctx.translate(200, 200); // translate to rectangle center 
+          ctx.setTransform(1,0,0,scale,.5,.5);
+          ctx.rotate(rot);
+          ctx.fillStyle = col;
+          ctx.fillRect(-100,-100, 200, 200);
+          ctx.translate(-200, -200); // translate back  
+        }
+
+        var rects = [];
+        for(var i = 0; i < 6; i ++){
+          rects[i] = {
+            x : 5,
+            y : 5,
+            w : .1,
+            h : .1,
+            rotate : .001,
+            dr : 0.001, // rotation rate
+            col : "hsla("+Math.floor(Math.random()*360)+",100%,50%,.5)",
+          };
+        }
+
+        // draw everything once a frame
+        function update(time){
+          var w = 500;
+          var h = 500;
+          ctx.setTransform(1,0,0,1,0,0); // reset transform
+          ctx.clearRect(0,0,w,h);  // clear the canvas
+          
+          // update and draw each rect
+          for(var i = 0; i < rects.length; i ++){
+            var rec = rects[i];
+            rec.rotate += .01;
+            drawRect(Math.sin(time * rec.ds) * 0.4,rec.rotate,rec.col);
+          }
+          requestAnimationFrame(update); // do it all again
+        }
+        requestAnimationFrame(update);
+      }
+    </script>
+    <style type="text/css">
+     canvas {
+     }
+    </style>
+  </head>
+  <body onload="draw();">
+    <canvas id="canvas" width="500" height="500"></canvas>
+  </body>
+</script>
+</html>
+
+
